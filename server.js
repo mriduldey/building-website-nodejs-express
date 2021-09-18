@@ -1,11 +1,12 @@
 const express = require('express');
 const path = require('path');
+const cookieSession = require('cookie-session');
+const createError = require('http-errors');
+
+// Local imports
 const routes = require('./routes');
 const FeedbackService = require('./services/FeedbackService');
 const SpeakerService = require('./services/SpeakerService');
-const cookieSession = require('cookie-session');
-const createError = require('http-errors');
-const { response } = require('express');
 
 const app = express();
 
@@ -20,6 +21,13 @@ app.use(
   cookieSession({
     name: 'session',
     keys: ['mrid76576gfg', 'jgjgjgjgjkhrsr;l;l'],
+  })
+);
+
+app.use(express.json());
+app.use(
+  express.urlencoded({
+    extended: true,
   })
 );
 
@@ -52,13 +60,12 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  // res.locals.message = err.message;
-  // const status = err.status || 500;
-  // res.locals.status = status;
-  const { message, status } = err;
-  console.error(message);
+  res.locals.message = err.message;
+  const status = err.status || 500;
+  res.locals.status = status;
+  console.error(err.message);
   res.status(status);
-  res.render('error', { status });
+  res.render('error');
 });
 
 app.listen(port, () => console.log(`Server started on post ${port}`));
