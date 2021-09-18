@@ -56,8 +56,9 @@ app.use((err, req, res, next) => {
   // const status = err.status || 500;
   // res.locals.status = status;
   const { message, status } = err;
+  console.error(message);
   res.status(status);
-  res.render('error', { status, message });
+  res.render('error', { status });
 });
 
 app.listen(port, () => console.log(`Server started on post ${port}`));
