@@ -13,8 +13,6 @@ const app = express();
 const feedbackService = new FeedbackService('./data/feedback.json');
 const speakersService = new SpeakerService('./data/speakers.json');
 
-const port = 3000;
-
 app.set('trust proxy', 1);
 
 app.use(
@@ -68,4 +66,6 @@ app.use((err, req, res, next) => {
   res.render('error');
 });
 
-app.listen(port, () => console.log(`Server started on post ${port}`));
+const PORT = process.env.PORT || 8001;
+
+app.listen(PORT, () => console.log(`Server started on post ${PORT}`));
